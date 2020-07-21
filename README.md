@@ -1,12 +1,19 @@
 ### js-console
 
+Keycloak
 ```
-mkdir /home/mike/git/pfly && cd /home/mike/git/pfly
+podman run --rm -p 8080:8080 -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin quay.io/keycloak/keycloak:latest -Djboss.bind.address.private=127.0.0.1 -Djboss.bind.address=127.0.0.1
+```
+
+Messing with Keycloak
+```
+mkdir ~/git/js-console && cd ~/git/js-console
 cat <<EOF > index.html
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <script src="http://localhost:8080/auth/js/keycloak.js"></script>
   <link rel="stylesheet" type="text/css" href="/node_modules/patternfly/dist/css/patternfly.css">
   <link rel="stylesheet" type="text/css" href="/node_modules/patternfly/dist/css/patternfly-additions.css">
 </head>
@@ -17,8 +24,10 @@ cat <<EOF > index.html
       <span class="pficon pficon-ok"></span>
       <strong>Great job!</strong> This Patternfly is really working out <a href="#" class="alert-link">great for us</a>.
     </div>
+    <ul>
+        <li><a href="#" onclick='window.location.href="http://localhost:8080/auth/realms/master/account"'>Manage Account</a></li>
+    </ul>
   </div>
-  <script src="http://localhost:8080/auth/js/keycloak.js">
   <script src="/node_modules/jquery/dist/jquery.js"></script>
   <script src="/node_modules/bootstrap/dist/js/bootstrap.js"></script>
 </body>
@@ -49,8 +58,4 @@ oc new-build --binary --name=pfly -i nodejs
 oc start-build pfly --from-dir=. --follow
 oc new-app pfly
 oc expose svc pfly
-```
-
-```
-podman run --rm -p 8080:8080 -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin quay.io/keycloak/keycloak:latest -Djboss.bind.address.private=127.0.0.1 -Djboss.bind.address=127.0.0.1
 ```
