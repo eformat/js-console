@@ -11,7 +11,7 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
-        "express": "^4.17.1",
+        "express": "^4.18.2",
         "patternfly": "^3.59.5",
         "keycloak-connect": "10.0.2",
         "express-session": "latest"
